@@ -28,7 +28,7 @@
         validator (value) {
           return ['small', 'large'].indexOf(value) > -1
         },
-        default: 'smanll'
+        default: 'small'
       },
       shape: {
         validator (value) {
