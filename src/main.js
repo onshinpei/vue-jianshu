@@ -8,10 +8,11 @@ import './js/flexible.js'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = Axios
+Vue.prototype.$server = 'http://localhost:3000'
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: {App}
 })
