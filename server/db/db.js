@@ -1,17 +1,17 @@
 var mysql = require('mysql');
-var pool  = mysql.createPool({
+var pool = mysql.createPool({
     connectionLimit: 50,
     host: 'localhost',
-    port: 3308,
+    port: 3306,
     user: 'root',
-    password: 'admin',
-    database: 'expressdemo'
+    password: '123456',
+    database: 'qq'
 });
 
-function query(sql, values){
+function query(sql, values) {
     return new Promise((resolve, reject) => {
         pool.getConnection((error, connection) => {
-            if(error) {
+            if (error) {
                 reject(error);
             } else {
                 connection.query(sql, values, function (error, results, fields) {
@@ -27,8 +27,3 @@ function query(sql, values){
     });
 }
 module.exports = query;
-
-
-
-
-

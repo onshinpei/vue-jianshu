@@ -19,6 +19,16 @@ module.exports = {
     rules: {
         // allow async-await
         "indent": ["error", 4],
+        "semi": 0,
+        // 配置末尾逗号
+        "comma-dangle": ['error', {
+            "array": 'never',
+            "object": 'ignore',
+            "function": 'ignore'
+        }],
+        'spaced-comment': 0,
+        'no-unused-vars': 0,
+        'space-before-function-paren': 0,
         'generator-star-spacing': 'off',
         // allow debugger during development
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

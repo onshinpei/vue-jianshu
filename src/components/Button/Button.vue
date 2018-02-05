@@ -1,5 +1,5 @@
 <template>
-    <button class="wx-btn" :disabled="disabled" :class="modClass">
+    <button class="wx-btn" :disabled="disabled" :class="modClass" @click="click">
         <Icon v-if="icon" :icon="icon"></Icon>
         <slot></slot>
     </button>
@@ -53,6 +53,11 @@
                 }
                 return s + ' ' + b + (this.shape === 'circle' ? ' wx-btn-circle' : '')
             }
+        },
+        methods: {
+            click() {
+                this.$emit('click');
+            }
         }
     }
 </script>
@@ -63,6 +68,7 @@
         white-space: nowrap;
         padding: 0 0.2rem;
         border: none;
+        cursor: pointer;
     }
 
     .wx-btn-small {

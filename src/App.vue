@@ -11,6 +11,7 @@
 </script>
 
 <style lang="less">
+    @import "styles/base";
    #app {
        width: 100%;
        height: 100%;
