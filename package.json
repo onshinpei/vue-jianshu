@@ -5,7 +5,10 @@
   "author": "wxp",
   "private": true,
   "nodemonConfig": {
-    "ignore": ["src/*", "server/public"]
+    "ignore": [
+      "src/*",
+      "server/public"
+    ]
   },
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -15,6 +18,7 @@
     "server": "nodemon server/bin/www"
   },
   "dependencies": {
+    "express-session": "^1.15.6",
     "mysql": "^2.15.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"

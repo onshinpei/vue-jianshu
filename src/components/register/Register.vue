@@ -1,7 +1,7 @@
 <template>
     <div class="app-login">
         <div class="login-pane">
-            <h2 class="login-pane-title">用户登录</h2>
+            <h2 class="login-pane-title">用户注册</h2>
             <div>
                 <input class="xp-input" type="tel" v-model="phone">
             </div>
@@ -28,13 +28,9 @@
         },
         methods: {
             submit () {
-                this.$http.post('/server/users/loginuser', {
+                this.$http.post('/server/users/adduser', {
                     phone: this.phone,
                     pwd: this.pwd
-                }).then((res) => {
-                    if (res.data.success) {
-                        this.$router.push('/recommend');
-                    }
                 })
             }
         }
