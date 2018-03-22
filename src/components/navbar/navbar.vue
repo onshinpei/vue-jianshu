@@ -9,6 +9,7 @@
         </div>
         <div class="login-group">
             <Button buttonType="primary" @click="loginHandler">登录</Button>
+            <Button buttonType="error" @click="logout">退出</Button>
         </div>
     </header>
 </template>
@@ -34,6 +35,13 @@
         methods: {
             loginHandler() {
                 this.$router.push('/login');
+            },
+            logout() {
+                this.$http.get('/server/users/logoutuser').then((res) => {
+                    this.$router.push('/login');
+                }, (err) => {
+                    console.log(err);
+                })
             }
         }
     }

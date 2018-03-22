@@ -4,6 +4,7 @@
         <div class="hot-topics xp-block-layout">
             <div class="hot-topics-header clearfix">
                 <span class="hot-topics-title">热门专题</span>
+
                 <Button class="hot-topics-change" icon="icon-loop2" buttonType="blank"
                         @click.native="changeCollections">换一批
                 </Button>

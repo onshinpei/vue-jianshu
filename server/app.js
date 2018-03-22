@@ -1,6 +1,5 @@
 var express = require('express');
 var session = require('express-session');
-
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -27,10 +26,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'lenshen qq',
     cookie: {
-        maxAge: 60 * 1000 * 30
+        maxAge: 60 * 1000
     },
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false, //是否自动保存未初始化的会话，建议false
 }));
 
 app.use('/', index);

@@ -18,6 +18,9 @@
     "server": "nodemon server/bin/www"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2016": "^6.24.1",
     "express-session": "^1.15.6",
     "mysql": "^2.15.0",
     "vue": "^2.5.2",

@@ -6,7 +6,17 @@
 
 <script>
     export default {
-        name: 'app'
+        name: 'app',
+        mounted() {
+            this.$http.get('/server/users/userinfo').then((res) => {
+                let resData = res.data;
+                if (resData.success) {
+                    console.log('获取成功')
+                } else {
+                    this.$router.push('/login');
+                }
+            });
+        }
     }
 </script>
 
