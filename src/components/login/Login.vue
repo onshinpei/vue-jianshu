@@ -3,39 +3,65 @@
         <div class="login-pane">
             <h2 class="login-pane-title">用户登录</h2>
             <div>
-                <input class="xp-input" type="tel" v-model="phone">
+                <input class="xp-input" type="tel" v-model="userinfo.phone">
             </div>
             <div>
-                <input class="xp-input" type="password" v-model="pwd">
+                <input class="xp-input" type="password" v-model="userinfo.pwd">
             </div>
             <div>
-                <Button @click="submit">提交</Button>
+                <Button @click="login">提交</Button>
+            </div>
+            <div>
+                还没有账号，<router-link to="/register">去注册</router-link>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import {mapGetters} from 'vuex'
     import Button from '@/components/Button/Button'
+    import {apiLogin} from '@/api/login'
+
     export default {
         components: {
             Button
         },
         data () {
             return {
-                phone: '18501308131',
-                pwd: '123456'
+                userinfo: {
+                    phone: '18501308131',
+                    pwd: '123456'
+                }
+            }
+        },
+        computed: {
+            ...mapGetters(['isLogin'])
+        },
+        created() {
+            // 如果已经登录，则跳至推荐页
+            if (this.isLogin) {
+                alert('你已经登录了，请先退出原来账号');
+                this.$router.push('/recommend')
             }
         },
         methods: {
-            submit () {
-                this.$http.post('/server/users/loginuser', {
-                    phone: this.phone,
-                    pwd: this.pwd
-                }).then((res) => {
-                    if (res.data.success) {
-                        this.$router.push('/recommend');
-                    }
-                })
+            validate({phone, pwd}) {
+                if (phone.trim() === '') {
+                    alert('请输入用户名');
+                    return false;
+                }
+                if (pwd.trim() === '') {
+                    alert('请输入密码');
+                    return false;
+                }
+                return true
+            },
+            async login () {
+                const resData = await apiLogin(this.userinfo);
+                if (resData.success) {
+                    this.$store.commit('SET_LOGIN', resData.data);
+                    this.$router.push('/recommend');
+                }
             }
         }
     }

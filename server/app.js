@@ -17,7 +17,28 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(logger(function (tokens, req, res) {
+    return [
+        tokens.method(req, res),
+        tokens.url(req, res),
+        tokens.status(req, res),
+        tokens.res(req, res, 'content-length'), '-',
+        tokens['response-time'](req, res), 'ms'
+    ].join(' ')
+}));
+
+app.all('*', function(req, res, next) {
+    let origin = req.get('Origin');
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Credentials", true); // 设置了这项，origin不能用*号
+    res.header("Access-Control-Max-Age", 3600);
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By",' 3.2.1')
+    if (req.method === "OPTIONS") res.send(200); /*让options请求快速返回*/
+    else  next();
+});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -26,7 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'lenshen qq',
     cookie: {
-        maxAge: 60 * 1000
+        maxAge: 60 * 60 * 1000
     },
     resave: false,
     saveUninitialized: false, //是否自动保存未初始化的会话，建议false

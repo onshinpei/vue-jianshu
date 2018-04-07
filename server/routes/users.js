@@ -1,7 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var query = require('../db/db');
-var sql = require('../db/sqlMap');
+import express from 'express'
+import query from '../db/db'
+import sql from '../db/sqlMap'
+import {sendJson2} from "../common/util";
+
+import Login from '../controller/login/login'
+
+const router = express.Router();
+
 // var register = require('../controller/register');
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -16,7 +21,7 @@ router.get('/allusers', (req, res, next) => {
 //     const result = await register.sendMessage(req, res);
 //     res.json(result)
 // })
-router.post('/loginuser', (req, res, next) => {
+/*router.post('/loginuser', (req, res, next) => {
     const {phone, pwd} = req.body;
     if (phone.trim() !== '' && pwd.trim() !== '') {
         query(sql.user.select_phone_pwd, [phone, pwd]).then((result) => {
@@ -25,7 +30,7 @@ router.post('/loginuser', (req, res, next) => {
                 updateLoginInfo(phone);
                 let loginStatus = saveSeesion(req, phone);
                 console.log(loginStatus);
-                sendJson(res);
+                sendJson(res, true, '登录成功');
             } else {
                 sendJson(res, false, '用户不存在或密码错误');
             }
@@ -35,16 +40,47 @@ router.post('/loginuser', (req, res, next) => {
     } else {
         sendJson(res, false, '用户名和密码不能为空');
     }
-})
+})*/
+
+router.post('/loginuser', loginuser)
+async function loginuser(req, res) {
+    const info = await Login.login(req, res);
+    console.log(info)
+    if (info) {
+        sendJson2({
+            res: res,
+            success: info.success,
+            data: info.data,
+            message: info.message
+        })
+    }
+}
+
+async function checkUser(phone, pwd) {
+    query(sql.user.select_phone_pwd, [phone, pwd]).then((result) => {
+        if (result.length > 0) {
+            //保存session
+            updateLoginInfo(phone);
+            let loginStatus = saveSeesion(req, phone);
+            console.log(loginStatus);
+            sendJson(res, true, '登录成功');
+        } else {
+            sendJson(res, false, '用户不存在或密码错误');
+        }
+    }).catch((err) => {
+        console.log(err)
+    })
+}
+
 
 router.get('/session', (req, res) => {
 
     sendJson(res, true, req.session);
 });
 router.get('/userinfo', (req, res) => {
-    let user = req.session.user;
-    if(user) {
-        query(sql.user.select_phone, user.phone).then((result) => {
+    let phone = req.session.phone;
+    if(phone) {
+        query(sql.user.select_phone, phone).then((result) => {
             sendJson(res, true, result[0]);
         })
     } else {
@@ -52,7 +88,7 @@ router.get('/userinfo', (req, res) => {
     }
 })
 router.all('/logoutuser', (req, res) => {
-    delete req.session.user;
+    delete req.session.phone;
    sendJson(res, true, '退出成功');
 });
 router.post('/adduser', (req, res, next) => {
@@ -63,7 +99,7 @@ router.post('/adduser', (req, res, next) => {
                 const qq = 172634791;
                 query(sql.user.add, [phone, pwd, qq]).then((result) => {
                     if (result) {
-                        sendJson(res);
+                        sendJson(res, true, '添加成功');
                     }
                 })
             } else {

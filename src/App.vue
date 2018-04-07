@@ -5,17 +5,17 @@
 </template>
 
 <script>
+    import {getUserInfo} from './api/baseApi';
+
     export default {
         name: 'app',
-        mounted() {
-            this.$http.get('/server/users/userinfo').then((res) => {
-                let resData = res.data;
-                if (resData.success) {
-                    console.log('获取成功')
-                } else {
-                    this.$router.push('/login');
-                }
-            });
+        async mounted() {
+            let resData = await getUserInfo({_: new Date().getTime()});
+            if (resData.success) {
+                console.log('获取成功')
+            } else {
+                //this.$router.push('/login');
+            }
         }
     }
 </script>

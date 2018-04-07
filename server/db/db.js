@@ -8,7 +8,7 @@ var pool = mysql.createPool({
     database: 'qq'
 });
 
-function query(sql, values) {
+async function query(sql, values) {
     return new Promise((resolve, reject) => {
         pool.getConnection((error, connection) => {
             if (error) {

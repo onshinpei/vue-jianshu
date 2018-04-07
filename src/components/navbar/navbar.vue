@@ -8,13 +8,16 @@
             </div>
         </div>
         <div class="login-group">
-            <Button buttonType="primary" @click="loginHandler">登录</Button>
-            <Button buttonType="error" @click="logout">退出</Button>
+            <span v-if="isLogin">你好，{{userInfo.phone}}</span>
+            <Button buttonType="primary" @click="loginHandler" v-if="!isLogin">登录</Button>
+            <Button buttonType="blank" @click="logout" v-if="isLogin">退出</Button>
         </div>
     </header>
 </template>
 <script>
     import Button from '@/components/Button/Button'
+    import {mapGetters} from 'vuex'
+
     export default {
         components: {
             Button
@@ -32,12 +35,20 @@
                 }
             }
         },
+        computed: {
+            ...mapGetters(['isLogin', 'userInfo'])
+        },
         methods: {
             loginHandler() {
                 this.$router.push('/login');
             },
             logout() {
-                this.$http.get('/server/users/logoutuser').then((res) => {
+                this.$http.get('/server/users/logoutuser', {
+                    params: {
+                        _: new Date().getTime()
+                    }
+                }).then((res) => {
+                    this.$store.commit('SET_LOGIN', {loginStatus: '', userInfo: this.userInfo})
                     this.$router.push('/login');
                 }, (err) => {
                     console.log(err);

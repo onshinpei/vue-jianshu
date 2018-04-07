@@ -39,9 +39,12 @@
     </div>
 </template>
 <script>
+    import {mapGetters} from 'vuex'
+
     import Navbar from '@/components/navbar/navbar'
     import Button from '@/components/Button/Button'
     import Badge from '@/components/Badge/Badge'
+
     export default {
         components: {
             Navbar,
@@ -62,11 +65,18 @@
                 flowLists: []
             }
         },
+        created() {
+            // 如果未登录，则跳至登录页
+            // if (!this.isLogin) {
+            //     this.$router.push('/login')
+            // }
+        },
         mounted () {
             this.fetchCollections()
             this.fetchRecommendedList()
         },
         computed: {
+            ...mapGetters(['isLogin']),
             noteIds () {
                 let noteIds = []
                 this.flowLists.forEach((item) => {
