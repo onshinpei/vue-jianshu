@@ -47,7 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'lenshen qq',
     cookie: {
-        maxAge: 60 * 60 * 1000
+        // maxAge: 60 * 60 * 1000
     },
     resave: false,
     saveUninitialized: false, //是否自动保存未初始化的会话，建议false

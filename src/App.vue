@@ -12,9 +12,10 @@
         async mounted() {
             let resData = await getUserInfo({_: new Date().getTime()});
             if (resData.success) {
-                console.log('获取成功')
+                console.log('获取成功');
             } else {
-                //this.$router.push('/login');
+                this.$store.commit('SET_LOGIN', {});
+                this.$router.push('/login');
             }
         }
     }

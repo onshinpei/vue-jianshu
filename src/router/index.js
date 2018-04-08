@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Recommend from '@/components/recommend/recommend'
 import Login from '@/components/login/Login'
 import Register from '@/components/register/Register'
+import Personal from '@/components/personal/Personal'
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export default new Router({
             path: '/register',
             name: 'register',
             component: Register
+        },
+        {
+            path: '/personal',
+            name: 'personal',
+            component: Personal
         }
     ]
 })
