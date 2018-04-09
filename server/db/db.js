@@ -2,7 +2,7 @@ var mysql = require('mysql');
 var pool = mysql.createPool({
     connectionLimit: 50,
     host: 'localhost',
-    port: 3306,
+    port: 3308,
     user: 'root',
     password: 'admin',
     database: 'qq'

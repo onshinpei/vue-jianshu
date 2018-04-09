@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="login-group">
-            <span v-if="isLogin">你好，{{userInfo.phone}}</span>
+            <span v-if="isLogin">你好，<router-link to="/personal">{{userInfo.phone}}</router-link></span>
             <Button buttonType="primary" @click="loginHandler" v-if="!isLogin">登录</Button>
             <Button buttonType="blank" @click="logout" v-if="isLogin">退出</Button>
         </div>

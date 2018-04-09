@@ -1,13 +1,18 @@
 import express from 'express'
+import multer from 'multer'
 import query from '../db/db'
 import sql from '../db/sqlMap'
 import {sendJson2} from "../common/util";
 
 import Login from '../controller/login/login'
 import Register from '../controller/Register'
+import UploadCover from '../controller/upload/uploadCover'
 
 const router = express.Router();
-
+const upload = multer({
+    //定义图片上传的临时目录
+    dest: './server/public/uploads'
+})
 // var register = require('../controller/register');
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -109,13 +114,18 @@ router.all('/logoutuser', (req, res) => {
 //     }
 // });
 
-router.post('/adduser', adduser)
-
-async function adduser(req, res) {
+router.post('/adduser', async(req, res) => {
     const info = await Register.register(req, res);
     console.log(info)
     sendJson2(Object.assign({res},info))
-}
+})
+
+router.post('/uploadCover',upload.single('imageFile'), async(req, res) => {
+    const info = await UploadCover.uploadCover(req, res);
+    console.log(info)
+    sendJson2(Object.assign({res},info))
+})
+
 
 /**
  * 发送信息

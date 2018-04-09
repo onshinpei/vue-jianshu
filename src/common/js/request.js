@@ -2,14 +2,14 @@ import axios from 'axios'
 
 import {getOptions} from './options';
 
-import {getType} from '@/common/js/util'
+import {getType, deepMerge} from '@/common/js/util'
 
-export async function requestGet(url, data) {
+export async function requestGet(url, data, config) {
     return new Promise((resolve, reject) => {
-        axios.get(url, {
+        axios.get(url, deepMerge({
             params: data,
             withCredentials: true
-        }).then(res => {
+        }, config)).then(res => {
             resolve(res.data)
         }).catch(err => {
             reject(err)
@@ -22,23 +22,12 @@ export async function requestGet(url, data) {
  * @param url 请求地址
  * @param data 请求数据
  */
-export async function requestPost(url, data) {
+export async function requestPost(url, data, config) {
     return new Promise((resolve, reject) => {
-        // let {getOptions} = require('./options');
         let options = getOptions()
-       /* let options = {
-            method: 'post',
-            url: url,
-            data: data
-        }*/
-        // axios(options).then(res => {
-        //     resolve(res.data)
-        // }).catch(err => {
-        //     reject(err)
-        // })
-        axios.post(url, data, {
+        axios.post(url, data, deepMerge({
             withCredentials: true
-        }).then(res => {
+        }, config)).then(res => {
             resolve(res.data)
         }).catch(err => {
             reject(err)

@@ -60,12 +60,12 @@ export default class Register {
 		const res = await query(sqlMap.user.insert, user).catch(err => {
 			console.log(err)
 		});
-		if (res.affectedRows == 1) {
+		if (res.affectedRows === 1) {
 			const user_detail = {
 				'user_id': res.insertId,
-				'nick_name' nickname
+				'nick_name': nickname
 			}
-			
+
 			return user_detail
 		}
 	}
