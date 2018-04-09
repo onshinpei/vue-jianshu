@@ -4,6 +4,7 @@ import sql from '../db/sqlMap'
 import {sendJson2} from "../common/util";
 
 import Login from '../controller/login/login'
+import Register from '../controller/Register'
 
 const router = express.Router();
 
@@ -45,14 +46,8 @@ router.get('/allusers', (req, res, next) => {
 router.post('/loginuser', loginuser)
 async function loginuser(req, res) {
     const info = await Login.login(req, res);
-    console.log(info)
     if (info) {
-        sendJson2({
-            res: res,
-            success: info.success,
-            data: info.data,
-            message: info.message
-        })
+        sendJson2(Object.assign({res}, info));
     }
 }
 
@@ -91,27 +86,37 @@ router.all('/logoutuser', (req, res) => {
     delete req.session.phone;
    sendJson(res, true, '退出成功');
 });
-router.post('/adduser', (req, res, next) => {
-    const {phone, pwd} = req.body;
-    if (phone.trim() !== '' && pwd.trim() !== '') {
-        query(sql.user.select_phone, phone).then((result) => {
-            if (result[0] === undefined) {
-                const qq = 172634791;
-                query(sql.user.add, [phone, pwd, qq]).then((result) => {
-                    if (result) {
-                        sendJson(res, true, '添加成功');
-                    }
-                })
-            } else {
-                sendJson(res, false, '用户已存在');
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
-    } else {
-        sendJson(res, false, '用户名和密码不能为空');
-    }
-});
+// router.post('/adduser', (req, res, next) => {
+//     const {phone, pwd} = req.body;
+//     if (phone.trim() !== '' && pwd.trim() !== '') {
+//         query(sql.user.select_phone, phone).then((result) => {
+//             if (result[0] === undefined) {
+//                 const qq = 172634791;
+//                 const time = (new Date().getTime())/1000
+//                 query(sql.user.add, [phone, pwd, qq, time]).then((result) => {
+//                     if (result) {
+//                         sendJson(res, true, '添加成功');
+//                     }
+//                 })
+//             } else {
+//                 sendJson(res, false, '用户已存在');
+//             }
+//         }).catch((err) => {
+//             console.log(err);
+//         });
+//     } else {
+//         sendJson(res, false, '用户名和密码不能为空');
+//     }
+// });
+
+router.post('/adduser', adduser)
+
+async function adduser(req, res) {
+    const info = await Register.register(req, res);
+    console.log(info)
+    sendJson2(Object.assign({res},info))
+}
+
 /**
  * 发送信息
  * @param res

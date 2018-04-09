@@ -34,6 +34,12 @@
                 this.$http.post('/server/users/adduser', {
                     phone: this.phone,
                     pwd: this.pwd
+                }).then(res => {
+                    if (res.data.success) {
+                        this.$Message.success(res.data.message);
+                    } else {
+                        this.$Message.error(res.data.message);
+                    }
                 })
             }
         }

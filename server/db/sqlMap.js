@@ -1,6 +1,7 @@
 const sqlMap = {
     user: {
-        add: 'insert into user( phone, pwd, qq) values ( ?, ?, ?)',
+        add: 'insert into user( phone, pwd, qq, time) values ( ?, ?, ?, ?)',
+        insert: 'insert into user set ?',
         update: 'update user set ? where phone = ? ',
         select_name: 'SELECT * from user where username = ?',    //查询 username
         select_phone: 'SELECT * from user where phone = ? limit 1',    //查询 username

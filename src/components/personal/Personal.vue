@@ -9,8 +9,10 @@
         </div>
     </div>
 </template>
-<script></script>
-<style>
+<script>
+    
+</script>
+<style lang="less">
     .personal {
         width: 1000px;
         padding: 0 16px;

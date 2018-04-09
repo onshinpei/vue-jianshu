@@ -59,8 +59,13 @@
             async login () {
                 const resData = await apiLogin(this.userinfo);
                 if (resData.success) {
+                    this.$Message.success(resData.message);
                     this.$store.commit('SET_LOGIN', resData.data);
-                    this.$router.push('/recommend');
+                    setTimeout(() => {
+                        this.$router.push('/recommend');
+                    }, 1000)
+                } else {
+                    this.$Message.error(resData.message);
                 }
             }
         }
