@@ -45,7 +45,7 @@ export function deepMerge(obj1, obj2) {
     if (getType(obj1) === 'Object' && getType(obj2) === 'Object') {
         for (let prop2 in obj2) {
             //obj1无值,都有取obj2
-            if (!obj1[prop2]) {
+            if (obj2[prop2] !== undefined) {
                 obj1[prop2] = obj2[prop2];
             } else {
                 //递归赋值

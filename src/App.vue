@@ -12,6 +12,8 @@
         async mounted() {
             let resData = await getUserInfo({_: new Date().getTime()});
             if (resData.success) {
+                this.$store.commit('SET_USER_INFO', resData.data);
+
                 console.log('获取成功');
             } else {
                 this.$store.commit('SET_LOGIN', {});

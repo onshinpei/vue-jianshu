@@ -38,7 +38,7 @@
             }
         },
         mounted() {
-            if(this.userInfo.profile_bg)
+            if (this.userInfo.profile_bg)
                 this.imgUrl = `url(http://localhost:3000${this.userInfo.profile_bg})`;
         },
         methods: {
