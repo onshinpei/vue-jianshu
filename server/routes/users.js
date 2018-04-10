@@ -120,7 +120,7 @@ router.post('/adduser', async(req, res) => {
     sendJson2(Object.assign({res},info))
 })
 
-router.post('/uploadCover',upload.single('imageFile'), async(req, res) => {
+router.post('/uploadCover', upload.single('imageFile'), async(req, res) => {
     const info = await UploadCover.uploadCover(req, res);
     console.log(info)
     sendJson2(Object.assign({res},info))

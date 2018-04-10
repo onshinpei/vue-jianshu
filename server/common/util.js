@@ -26,3 +26,15 @@ export function sendJson2(config) {
     });
     res.end();
 }
+
+export async function checkLogin(req, res) {
+    if (req.session.phone) {
+        return true
+    } else {
+        sendJson2({
+            res,
+            message: '请登录'
+        });
+        return false
+    }
+}

@@ -67,8 +67,13 @@
                         'Content-Type': 'multipart/form-data'
                     }
                 };
-                let res = await requestPost('http://localhost:3000/users/uploadCover', param, config);
-                this.imgUrl = `url(http://localhost:3000${res.data.imageUrl})`
+                let resData = await requestPost('http://localhost:3000/users/uploadCover', param, config);
+                if (resData.success) {
+                    this.imgUrl = `url(http://localhost:3000${resData.data.imageUrl})`;
+                    this.$Message.success(resData.message)
+                } else {
+                    this.$Message.error(resData.message)
+                }
             }
         }
     }

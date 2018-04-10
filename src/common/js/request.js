@@ -23,11 +23,12 @@ export async function requestGet(url, data, config) {
  * @param data 请求数据
  */
 export async function requestPost(url, data, config) {
+    let mergeConfig = deepMerge(config, {
+        withCredentials: true
+    })
     return new Promise((resolve, reject) => {
         let options = getOptions()
-        axios.post(url, data, deepMerge({
-            withCredentials: true
-        }, config)).then(res => {
+        axios.post(url, data, mergeConfig).then(res => {
             resolve(res.data)
         }).catch(err => {
             reject(err)
