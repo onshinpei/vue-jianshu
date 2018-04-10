@@ -1,4 +1,5 @@
 import * as types from './mutation-types'
+import {deepMerge} from '../common/js/util';
 
 export const state = {
     'loginStatus': JSON.parse(localStorage.getItem('loginStatus') || '{}'),
@@ -18,6 +19,10 @@ export const mutations = {
     // 登出
     [types.LOGOUT](state) {
         clear(state);
+    },
+    [types.SET_USER_INFO](state, obj) {
+        state.userInfo = deepMerge(state.userInfo, obj);
+        localStorage.setItem('userInfo', JSON.stringify(state.userInfo))
     }
 }
 

@@ -34,9 +34,9 @@ export default class Register {
 		// 新增用户
 		const user_detail = await this.insert(user, nickname);
 		// 关联的表也增加相应记录
-	 //    const affectedRows=await this.afterInsert(user_detail).catch((err) => {
-		// 	console.log(err)
-		// })
+	    const affectedRows=await this.afterInsert(user_detail).catch((err) => {
+			console.log(err)
+		})
 		return {
 			success: true,
 			message: '注册成功'
@@ -75,7 +75,10 @@ export default class Register {
 	// 对关联表进行插入信息
 	static async afterInsert(user_detail) {
 		const {user_id} = user_detail;
-		
+
+		await query(sqlMap.userDetail.insert, user_detail).catch(err => {
+		    console.log(err)
+        })
 
 		return;
 	}

@@ -7,7 +7,14 @@ const sqlMap = {
         select_phone: 'SELECT * from user where phone = ? limit 1',    //查询 username
         select_password: 'SELECT * from user where password = ?',      //查询 password
         select_name_password: 'SELECT * from user where username = ? and password = ?',      //查询 password
-        select_phone_pwd: 'SELECT * from user where phone = ? and pwd = ?'      //查询 用户，密码
+        select_phone_pwd: 'SELECT * from user where phone = ? and pwd = ?',      //查询 用户，密码
+    },
+    userDetail: {
+        insert: 'insert into user_detail set ?',
+        update: 'update user_detail set ? where user_id = ? ',
+    },
+    userInfoDetail: {
+        select_user_id: 'select a.*, b.phone, b.status, b.qq from user_detail a join user b on a.user_id = ? and b.id=a.user_id'
     }
 };
 

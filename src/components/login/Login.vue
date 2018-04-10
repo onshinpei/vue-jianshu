@@ -3,10 +3,10 @@
         <div class="login-pane">
             <h2 class="login-pane-title">用户登录</h2>
             <div>
-                <input class="xp-input" type="tel" v-model="userinfo.phone">
+                <input class="xp-input" @keyup.enter="login" type="tel" v-model="userinfo.phone">
             </div>
             <div>
-                <input class="xp-input" type="password" v-model="userinfo.pwd">
+                <input class="xp-input" @keyup.enter="login" type="password" v-model="userinfo.pwd">
             </div>
             <div>
                 <Button @click="login">提交</Button>

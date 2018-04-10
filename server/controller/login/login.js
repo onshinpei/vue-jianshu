@@ -35,14 +35,15 @@ export default class Login {
         //更新用户登录信息
         await this.updateLoginInfo(phone)
 
+        //取出用户的基本信息
+        const userInfo = await this.getUserDetail(userId)
+
         //保存session
-        let loginStatus = await this.saveSession(req, phone)
+        let loginStatus = await this.saveSession(req, phone, userId)
 
         loginStatus.isLogin = 1 // 将登录态置为1
         loginStatus.userId = userId //取到用户的id
 
-        //取出用户的基本信息
-        const userInfo = await this.getUserDetail(phone)
 
         return {
             success: true,
@@ -84,8 +85,8 @@ export default class Login {
      * @param phone
      * @returns {Promise<*>}
      */
-    static async getUserDetail(phone) {
-        const rows = await query(sqlMap.user.select_phone, phone).catch(err => {
+    static async getUserDetail(userId) {
+        const rows = await query(sqlMap.userInfoDetail.select_user_id, userId).catch(err => {
             console.log(err)
         });
         return rows[0]
@@ -114,8 +115,9 @@ export default class Login {
      * @param phone
      * @returns {Promise<void>}
      */
-    static async saveSession(req, phone) {
+    static async saveSession(req, phone, user_id) {
         req.session.phone = phone;
+        req.session.user_id = user_id
         return {
             phone: phone
         }

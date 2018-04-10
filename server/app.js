@@ -6,6 +6,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// 全局变量
+require('./common/global')
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 

@@ -2,7 +2,7 @@
     <div class="personal">
         <div class="personal-header">
             <div class="common-card">
-                <div class="personal-cover" :class="{active: isHoverShow}">
+                <div class="personal-cover" :class="{active: isHoverShow || imgUrl}">
                     <div class="personal-cover-guide">
                         <div class="personal-cover-nav">
                             <div class="upload-img-btn-box">
@@ -16,16 +16,17 @@
                     <div class="personal-cover-bg" :style="{backgroundImage: imgUrl}"></div>
 
                 </div>
-                <div>
-                    <Button type="primary" @click="uploadChange">上传</Button>
-                </div>
+                <!--<div>-->
+                    <!--<Button type="primary" @click="uploadChange">上传</Button>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
 </template>
 <script>
-    import {requestPost} from '../../common/js/request';
+    import {mapGetters} from 'vuex'
 
+    import {requestPost} from '../../common/js/request';
     export default {
         name: 'Personal',
         data() {
@@ -35,6 +36,10 @@
                 isOutHideTimer: null,
                 imgUrl: null
             }
+        },
+        mounted() {
+            if(this.userInfo.profile_bg)
+                this.imgUrl = `url(http://localhost:3000${this.userInfo.profile_bg})`;
         },
         methods: {
             showSlider() {
@@ -69,12 +74,17 @@
                 };
                 let resData = await requestPost('http://localhost:3000/users/uploadCover', param, config);
                 if (resData.success) {
+                    const baseImgUrl = resData.data.imageUrl;
                     this.imgUrl = `url(http://localhost:3000${resData.data.imageUrl})`;
+                    this.$store.commit('SET_USER_INFO', {profile_bg: baseImgUrl});
                     this.$Message.success(resData.message)
                 } else {
                     this.$Message.error(resData.message)
                 }
             }
+        },
+        computed: {
+            ...mapGetters(['userInfo'])
         }
     }
 </script>

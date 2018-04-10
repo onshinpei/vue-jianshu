@@ -1,27 +1,51 @@
 import fs from 'fs'
-import path from 'path'
+import multer from 'multer'
+import query from '../../db/db'
+import sqlMap from '../../db/sqlMap'
+
 import {checkLogin} from '../../common/util'
+
+ const upload = multer({
+    //定义图片上传的临时目录
+    dest: __publicPath + '/uploads'
+})
 /**
  * 上传封面照片
  */
 export default class uploadCover {
     static async uploadCover(req, res) {
-        const publicPath = path.resolve(__dirname, '../../public');
         let isLogin = await checkLogin(req, res);
-        console.log(isLogin)
         return new Promise((resolve, reject) => {
-            fs.rename(req.file.path, publicPath + "/uploads2/" + req.file.originalname, function(err) {
-                if(err) {
-                    throw err;
-                }
+            if (!isLogin) {
                 resolve({
-                    success: true,
-                    message: '上传成功',
-                    data: {
-                        imageUrl: '/uploads2/'+ req.file.originalname
+                    message: '请登录'
+                });
+            } else {
+                const uploadArea = upload.single('imageFile');
+                uploadArea(req, res, (err) => {
+                    if (err) {
+                        reject(err)
                     }
+                    let fileUrl = "/uploads2/" + req.file.originalname;
+                    fs.rename(req.file.path, __publicPath + fileUrl, async(err) => {
+                        if(err) {
+                            reject(err)
+                        }
+                        //插入数据库
+                        query(sqlMap.userDetail.update, [{profile_bg: fileUrl}, req.session.user_id]).catch(err => {
+                            reject(err)
+                        });
+                        resolve({
+                            success: true,
+                            message: '上传成功',
+                            data: {
+                                imageUrl: '/uploads2/'+ req.file.originalname
+                            }
+                        })
+                    })
                 })
-            })
+
+            }
         })
 
     }

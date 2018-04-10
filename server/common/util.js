@@ -17,24 +17,34 @@ export function sendJson(res, success = true, data) {
         res.end();
     }
 }
+
+/**
+ * 通用发送信息
+ * @param config
+ */
 export function sendJson2(config) {
     let res = config.res;
-    res.json({
+    const resJson = {
         success: config.success || false,
         message: config.message || '',
         data: config.data
-    });
+    }
+    console.log(resJson);
+    res.json(resJson);
     res.end();
 }
 
+/**
+ * 检测登录
+ * @param req
+ * @param res
+ * @returns {Promise<boolean>}
+ */
 export async function checkLogin(req, res) {
     if (req.session.phone) {
         return true
     } else {
-        sendJson2({
-            res,
-            message: '请登录'
-        });
         return false
     }
 }
+
