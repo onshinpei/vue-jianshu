@@ -75,7 +75,7 @@
     .app-login {
         width: 100%;
         height: 100%;
-        background: url('../../assets/bg.jpg') center center;
+        background: url('../../assets/bg.png') center center;
         background-size: cover;
         .login-pane {
             padding: 50px;

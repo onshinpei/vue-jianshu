@@ -17,6 +17,7 @@
 <script>
     import Button from '@/components/Button/Button'
     import {mapGetters} from 'vuex'
+    import {aipLogout} from '@/api/login'
 
     export default {
         components: {
@@ -42,17 +43,19 @@
             loginHandler() {
                 this.$router.push('/login');
             },
-            logout() {
-                this.$http.get('/server/users/logoutuser', {
+            async logout() {
+                const resData = await aipLogout({
                     params: {
                         _: new Date().getTime()
                     }
-                }).then((res) => {
+                }).catch(err => {
+                    console.log(err);
+                });
+                console.log(resData)
+                if (resData.success) {
                     this.$store.commit('SET_LOGIN', {loginStatus: '', userInfo: this.userInfo})
                     this.$router.push('/login');
-                }, (err) => {
-                    console.log(err);
-                })
+                }
             }
         }
     }

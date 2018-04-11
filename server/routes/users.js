@@ -86,28 +86,6 @@ router.all('/logoutuser', (req, res) => {
     delete req.session.phone;
    sendJson(res, true, '退出成功');
 });
-// router.post('/adduser', (req, res, next) => {
-//     const {phone, pwd} = req.body;
-//     if (phone.trim() !== '' && pwd.trim() !== '') {
-//         query(sql.user.select_phone, phone).then((result) => {
-//             if (result[0] === undefined) {
-//                 const qq = 172634791;
-//                 const time = (new Date().getTime())/1000
-//                 query(sql.user.add, [phone, pwd, qq, time]).then((result) => {
-//                     if (result) {
-//                         sendJson(res, true, '添加成功');
-//                     }
-//                 })
-//             } else {
-//                 sendJson(res, false, '用户已存在');
-//             }
-//         }).catch((err) => {
-//             console.log(err);
-//         });
-//     } else {
-//         sendJson(res, false, '用户名和密码不能为空');
-//     }
-// });
 
 router.post('/adduser', async(req, res) => {
     const info = await Register.register(req, res);
@@ -115,9 +93,14 @@ router.post('/adduser', async(req, res) => {
     sendJson2(Object.assign({res},info))
 })
 
-router.post('/uploadCover', async(req, res) => {
-    const info = await UploadCover.uploadCover(req, res);
-    sendJson2(Object.assign({res},info))
+router.post('/uploadCover', async(req, res, next) => {
+    let sendJson = {};
+    const info = await UploadCover.uploadCover(req, res).catch(err => {
+        next(err)
+    });
+    if (info) {
+        sendJson2(Object.assign({res},info))
+    }
 })
 
 
