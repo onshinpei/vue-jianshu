@@ -12,6 +12,7 @@ const sqlMap = {
     userDetail: {
         insert: 'insert into user_detail set ?',
         update: 'update user_detail set ? where user_id = ? ',
+        select_user_id: 'select * from user_detail where user_id = ?'
     },
     userInfoDetail: {
         select_user_id: 'select a.*, b.phone, b.status, b.qq from user_detail a join user b on a.user_id = ? and b.id=a.user_id'

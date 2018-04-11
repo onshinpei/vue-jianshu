@@ -16,9 +16,15 @@
                     <div class="personal-cover-bg" :style="{backgroundImage: imgUrl}"></div>
 
                 </div>
-                <!--<div>-->
-                    <!--<Button type="primary" @click="uploadChange">上传</Button>-->
-                <!--</div>-->
+                <div class="personal-wrapper">
+                    <div class="personal-main">
+                        <div class="personal-avatar-wrap">
+                            <div class="personal-avatar">
+                                <img src="http://localhost:3000/avatar/default.jpg" class="personal-avatar-img" width=160 height=160>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -38,8 +44,9 @@
             }
         },
         mounted() {
-            if (this.userInfo.profile_bg)
+            if (this.userInfo.profile_bg) {
                 this.imgUrl = `url(http://localhost:3000${this.userInfo.profile_bg})`;
+            }
         },
         methods: {
             showSlider() {
@@ -72,7 +79,10 @@
                         'Content-Type': 'multipart/form-data'
                     }
                 };
-                let resData = await requestPost('http://localhost:3000/users/uploadCover', param, config);
+                let resData = await requestPost('http://localhost:3000/users/uploadCover', param, config).catch(err => {
+                    console.log(err)
+                    this.$Message.error('上传失败')
+                });
                 if (resData.success) {
                     const baseImgUrl = resData.data.imageUrl;
                     this.imgUrl = `url(http://localhost:3000${resData.data.imageUrl})`;
@@ -132,6 +142,26 @@
             &.active {
                 .personal-cover-bg {
                     height: 240px;
+                }
+            }
+        }
+        .personal-wrapper {
+            .personal-main {
+                position: relative;
+                margin: 0 20px 24px;
+                .personal-avatar-wrap {
+                    position: absolute;
+                    z-index: 3;
+                    top: -74px;
+                    left: 0
+                }
+                .personal-avatar {
+                    display: inline-block;
+                    overflow: hidden;
+                    vertical-align: top;
+                    background-color: #fff;
+                    border: 4px solid #fff;
+                    border-radius: 8px;
                 }
             }
         }
