@@ -17,10 +17,24 @@
 
                 </div>
                 <div class="personal-wrapper">
-                    <div class="personal-main">
+                    <div class="personal-header-main">
                         <div class="personal-avatar-wrap">
                             <div class="personal-avatar">
                                 <img src="http://localhost:3000/avatar/default.jpg" class="personal-avatar-img" width=160 height=160>
+                            </div>
+                        </div>
+                        <div class="personal-header-content">
+                            <div class="personal-base-info">
+                                <h1 class="personal-base-title">
+                                    <span class="personal-base-name">温新平</span>
+                                    <span class="personal-base-job">学生</span>
+                                </h1>
+                            </div>
+                            <div class="personal-sex-wrap">
+                                <Icon type="male" title="男"></Icon>
+                            </div>
+                            <div class="personal-btn-box">
+                                <Button class="personal-btn" type="ghost">编辑个人资料</Button>
                             </div>
                         </div>
                     </div>
@@ -146,7 +160,7 @@
             }
         }
         .personal-wrapper {
-            .personal-main {
+            .personal-header-main {
                 position: relative;
                 margin: 0 20px 24px;
                 .personal-avatar-wrap {
@@ -162,6 +176,44 @@
                     background-color: #fff;
                     border: 4px solid #fff;
                     border-radius: 8px;
+                }
+
+                .personal-header-content {
+                    padding-top: 16px;
+                    padding-left: 32px;
+                    border-left: 164px solid transparent;
+                    .personal-base-info {
+                        position: relative;
+                        padding-right: 106px;
+                        margin-bottom: 16px;
+                        .personal-base-title {
+                            flex: 1;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            .personal-base-name {
+                                font-size: 26px;
+                                font-weight: 600;
+                                line-height: 30px;
+                            }
+                            .personal-base-job{
+                                margin-left: 12px;
+                                font-size: 18px;
+                                white-space: nowrap;
+                            }
+                        }
+                    }
+                    .personal-sex-wrap {
+                        font-size: 20px;
+                    }
+                    .personal-btn-box {
+                        position: relative;
+                        .personal-btn {
+                            position: absolute;
+                            bottom: 0;
+                            right: 0;
+                        }
+                    }
                 }
             }
         }

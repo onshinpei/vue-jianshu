@@ -62,6 +62,7 @@ export default class Login {
      */
     static async checkPhone(phone) {
         const rows = await query(sqlMap.user.select_phone, phone).catch(err => {
+
             console.log(err)
         });
         return rows.length > 0 ? rows[0].id : 0
