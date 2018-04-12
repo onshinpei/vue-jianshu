@@ -136,13 +136,15 @@
             },
             async collectList (item) {
                 if (item.isCollect) {
-
+                    this.$Message.info('已经是收藏');
                 } else {
-                    const res = await requestPost('http://localhost:3000/users/collections', {
-                        data: item,
-                        type: 'add'
+                    const res = await requestPost('http://localhost:3000/users/addCollect', {
+                        dataObj: item
                     });
-                    console.log(res)
+                    if (res.success) {
+                        this.$set(item, 'isCollect', true);
+                        this.$Message.success(res.message);
+                    }
                 }
             }
         }

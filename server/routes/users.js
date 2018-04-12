@@ -6,6 +6,10 @@ import {sendJson2} from "../common/util";
 import Login from '../controller/login/login'
 import Register from '../controller/Register'
 import UploadCover from '../controller/upload/uploadCover'
+import Collect from '../controller/collect/collect'
+import Recommend from '../controller/recommend/Recommend'
+
+import {checkLogin} from "../common/util";
 
 const router = express.Router();
 // var register = require('../controller/register');
@@ -102,7 +106,27 @@ router.post('/uploadCover', async(req, res, next) => {
         sendJson2(Object.assign({res},info))
     }
 })
-
+router.post('/addCollect', async(req, res, next) => {
+    const loginFlag = await checkLogin(req, res);
+    if(!loginFlag) {
+        sendJson2({res, message: '请登录'});
+        return;
+    }
+    const info = await Collect.addCollect(req, res).catch(err => {
+        next(err)
+    });
+    if(info) {
+        sendJson2(Object.assign({res},info))
+    }
+})
+router.get('/getRecommend', async(req, res, next) => {
+     await Recommend.getRecommend(req, res).then(res => {
+         console.log(res)
+     }).catch(err => {
+         next(err)
+     });
+    // sendJson2({res})
+})
 
 /**
  * 发送信息

@@ -34,6 +34,7 @@ export default new Router({
             path: '/personal',
             name: 'personal',
             component: Personal,
+            redirect: '/personal/collects',
             children: [
                 {
                     name: 'following',

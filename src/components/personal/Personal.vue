@@ -42,7 +42,7 @@
                                 <Icon type="male" title="男"></Icon>
                             </div>
                             <div class="personal-btn-box">
-                                <Button class="personal-btn" type="ghost">编辑个人资料</Button>
+                                <Button class="personal-btn" type="ghost" @click.native="editInfo">编辑个人资料</Button>
                             </div>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
 <script>
     import {mapGetters} from 'vuex'
 
-    import {requestPost} from '../../common/js/request';
+    import {requestPost, requestGet} from '../../common/js/request';
     export default {
         name: 'Personal',
         data() {
@@ -153,6 +153,14 @@
             },
             changeMenu(e) {
                 this.$router.push('/personal/' + e)
+            },
+            async editInfo(e) {
+                const t = await requestGet('http://localhost:3000/users/getRecommend', {
+                    page: 1,
+                    count: 15
+                }).catch(err => {
+                    console.log(err)
+                })
             }
         },
         computed: {
@@ -259,10 +267,10 @@
                         .personal-avatar-edit {
                              opacity: 1
                         }
-                       
+
                     }
                 }
-                
+
 
                 .personal-header-content {
                     padding-top: 16px;
@@ -301,7 +309,7 @@
                         }
                     }
                 }
-                
+
             }
         }
 

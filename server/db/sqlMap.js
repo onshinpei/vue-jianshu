@@ -16,6 +16,10 @@ const sqlMap = {
     },
     userInfoDetail: {
         select_user_id: 'select a.*, b.phone, b.status, b.qq from user_detail a join user b on a.user_id = ? and b.id=a.user_id'
+    },
+    userCollect: {
+        insert: 'insert into user_collects set ?',
+        select_jianshu_id: 'select * from user_collects where user_id = ? and jianshu_id = ?'
     }
 };
 
