@@ -18,6 +18,9 @@
                 <ul class="flow-list-ul">
                     <li class="flow-list-li" v-for="flowList in flowLists" v-if="flowList.object.data"
                         :key="flowList.object.data.id">
+                        <div class="flow-list-operation">
+                            <Icon type="heart" class="operation-btn is-active" :class="{active: flowList.isCollect}" @click.native="collectList(flowList)"></Icon>
+                        </div>
                         <a href="javascript:;">
                             <div class="author">
                                 <a href="javascript:;" class="author-avator-a"><img
@@ -44,6 +47,8 @@
     import Navbar from '@/components/navbar/navbar'
     import Button from '@/components/Button/Button'
     import Badge from '@/components/Badge/Badge'
+    import {deepClone} from '@/common/js/util'
+    import {requestPost} from '@/common/js/request'
 
     export default {
         components: {
@@ -128,6 +133,17 @@
             },
             getFlowListMore () {
                 this.fetchRecommendedList()
+            },
+            async collectList (item) {
+                if (item.isCollect) {
+
+                } else {
+                    const res = await requestPost('http://localhost:3000/users/collections', {
+                        data: item,
+                        type: 'add'
+                    });
+                    console.log(res)
+                }
             }
         }
     }
@@ -164,7 +180,23 @@
     .flow-list-li {
         padding: 0.2rem 0.3rem;
         border-bottom: 1px solid #f0f0f0;
+        position: relative;
         word-wrap: break-word;
+        .flow-list-operation {
+            position: absolute;
+            right: 0.3rem;
+            top: 0.3rem;
+            font-size: 30px;
+            .operation-btn {
+                cursor: pointer;
+                &:hover {
+                    color: #7c7ce1;
+                }
+            }
+            .active {
+                color: red !important;
+            }
+        }
         .flow-list-img {
             margin: 15px 0;
             height: 120px;

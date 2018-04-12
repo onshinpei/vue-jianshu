@@ -4,6 +4,8 @@ import Recommend from '@/components/recommend/recommend'
 import Login from '@/components/login/Login'
 import Register from '@/components/register/Register'
 import Personal from '@/components/personal/Personal'
+import Following from '@/components/personal/Following'
+import Collects from '@/components/personal/Collects'
 
 Vue.use(Router)
 
@@ -31,7 +33,19 @@ export default new Router({
         {
             path: '/personal',
             name: 'personal',
-            component: Personal
+            component: Personal,
+            children: [
+                {
+                    name: 'following',
+                    path: 'following',
+                    component: Following
+                },
+                {
+                    name: 'collects',
+                    path: 'collects',
+                    component: Collects
+                }
+            ]
         }
     ]
 })

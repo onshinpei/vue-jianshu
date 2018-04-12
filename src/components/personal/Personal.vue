@@ -22,6 +22,13 @@
                             <div class="personal-avatar">
                                 <img src="http://localhost:3000/avatar/default.jpg" class="personal-avatar-img" width=160 height=160>
                             </div>
+                            <div class="personal-avatar-edit" @click="changeAvatar">
+                                <div class="avatar-edit-box">
+                                    <Icon type="camera" class="avatar-edit-icon"></Icon>
+                                    <Button type="primary">修改我的头像</Button>
+                                    <input type="file" ref="avatarInput" style="display: none">
+                                </div>
+                            </div>
                         </div>
                         <div class="personal-header-content">
                             <div class="personal-base-info">
@@ -29,6 +36,7 @@
                                     <span class="personal-base-name">温新平</span>
                                     <span class="personal-base-job">学生</span>
                                 </h1>
+
                             </div>
                             <div class="personal-sex-wrap">
                                 <Icon type="male" title="男"></Icon>
@@ -40,6 +48,40 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="personal-main">
+            <div class="common-card">
+                 <Menu mode="horizontal" active-name="collects" @on-select="changeMenu">
+                    <MenuItem name="collects">
+                        <Icon type="ios-paper"></Icon>
+                        收藏
+                    </MenuItem>
+                    <MenuItem name="following">
+                        <Icon type="ios-people"></Icon>
+                        关注
+                    </MenuItem>
+                    <Submenu name="3">
+                        <template slot="title">
+                            <Icon type="stats-bars"></Icon>
+                            统计分析
+                        </template>
+                        <MenuGroup title="使用">
+                            <MenuItem name="3-1">新增和启动</MenuItem>
+                            <MenuItem name="3-2">活跃分析</MenuItem>
+                            <MenuItem name="3-3">时段分析</MenuItem>
+                        </MenuGroup>
+                        <MenuGroup title="留存">
+                            <MenuItem name="3-4">用户留存</MenuItem>
+                            <MenuItem name="3-5">流失用户</MenuItem>
+                        </MenuGroup>
+                    </Submenu>
+                    <MenuItem name="4">
+                        <Icon type="settings"></Icon>
+                        综合设置
+                    </MenuItem>
+                </Menu>
+            </div>
+            <router-view></router-view>
         </div>
     </div>
 </template>
@@ -82,6 +124,9 @@
                 this.isHoverShow = true;
                 this.$refs.uploadInput.click();
             },
+            changeAvatar() {
+                this.$refs.avatarInput.click();
+            },
             async uploadChange() {
                 const imageFile = this.$refs.uploadInput.files[0];
                 //创建form对象
@@ -105,6 +150,9 @@
                 } else {
                     this.$Message.error(resData.message)
                 }
+            },
+            changeMenu(e) {
+                this.$router.push('/personal/' + e)
             }
         },
         computed: {
@@ -117,9 +165,12 @@
         width: 1000px;
         padding: 0 16px;
         margin: 10px auto;
+        .personal-main {
+            padding-top: 16px;
+        }
         .common-card {
             background-color: #fff;
-            overflow: hidden;
+            // overflow: hidden;
             border-radius: 2px;
             box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
             box-sizing: border-box;
@@ -162,21 +213,56 @@
         .personal-wrapper {
             .personal-header-main {
                 position: relative;
-                margin: 0 20px 24px;
+                padding: 0 20px 24px;
                 .personal-avatar-wrap {
                     position: absolute;
                     z-index: 3;
                     top: -74px;
-                    left: 0
+                    left: 25px;
+                    .personal-avatar {
+                        display: inline-block;
+                        overflow: hidden;
+                        vertical-align: top;
+                        background-color: #fff;
+                        border: 4px solid #fff;
+                        border-radius: 8px;
+                        img {
+                            display: block;
+                        }
+                    }
+                    .personal-avatar-edit {
+                        position: absolute;
+                        top: 4px;
+                        left: 4px;
+                        right: 4px;
+                        bottom: 4px;
+                        background: rgba(0, 0, 0, .3);
+                        border-radius: 8px;
+                        opacity: 0;
+                        transition: .3s;
+                        color: #fff;
+                        cursor: pointer;
+                        .avatar-edit-box {
+                            margin: 0 auto;
+                            display: flex;
+                            width: 100px;
+                            align-items: center;
+                            flex-direction: column;
+                            height: 100%;
+                            justify-content: space-evenly;
+                            .avatar-edit-icon {
+                                font-size: 50px;
+                            }
+                        }
+                    }
+                    &:hover {
+                        .personal-avatar-edit {
+                             opacity: 1
+                        }
+                       
+                    }
                 }
-                .personal-avatar {
-                    display: inline-block;
-                    overflow: hidden;
-                    vertical-align: top;
-                    background-color: #fff;
-                    border: 4px solid #fff;
-                    border-radius: 8px;
-                }
+                
 
                 .personal-header-content {
                     padding-top: 16px;
@@ -215,6 +301,7 @@
                         }
                     }
                 }
+                
             }
         }
 
