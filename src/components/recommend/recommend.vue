@@ -48,7 +48,7 @@
     import Button from '@/components/Button/Button'
     import Badge from '@/components/Badge/Badge'
     import {deepClone} from '@/common/js/util'
-    import {requestPost} from '@/common/js/request'
+    import {requestPost, requestGet} from '@/common/js/request'
 
     export default {
         components: {
@@ -117,17 +117,13 @@
                 })
             },
             fetchRecommendedList () {
-                this.$http.get('/jianshu/mobile/trending/now', {
-                    params: {
-                        page: this.page,
-                        count: this.count,
-                        note_ids: this.noteIds
-                    },
-                    headers: {
-                        Accept: 'application/json'
-                    }
+                requestGet('http://localhost:3000/users/getRecommend', {
+                    page: this.page,
+                    count: this.count,
+                    note_ids: this.noteIds
                 }).then((res) => {
-                    this.page++
+                    console.log(res.data)
+                    // this.page++
                     this.flowLists = this.flowLists.concat(res.data)
                 })
             },

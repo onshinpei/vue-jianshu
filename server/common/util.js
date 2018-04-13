@@ -29,7 +29,7 @@ export function sendJson2(config) {
         message: config.message || '',
         data: config.data
     }
-    console.log(resJson);
+    // console.log(resJson);
     res.json(resJson);
     res.end();
 }

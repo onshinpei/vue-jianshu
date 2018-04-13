@@ -6,7 +6,7 @@ export default class Collect {
         const {type, dataObj} = req.body;
         const userId = req.session.user_id;
         const jianshuId = dataObj.object.data.id;
-
+        delete dataObj.isCollect;
         let resData = await query(sqlMap.userCollect.insert, {
             'user_id': userId,
             'collect_obj': JSON.stringify(dataObj),
@@ -22,6 +22,17 @@ export default class Collect {
                 message: '收藏成功'
             }
         }
+    }
+
+    static async allCollect(req, res) {
+        const user_id = req.session.user_id;
+        let resData = [];
+        let rowsData = await query(sqlMap.userCollect.select_user_id, [user_id]);
+        console.log(rowsData[0].collect_obj)
+        rowsData.forEach((rowData) => {
+            resData.push(JSON.parse(rowData.collect_obj))
+        })
+        return resData
     }
 
 }

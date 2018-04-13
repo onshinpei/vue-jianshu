@@ -22,30 +22,6 @@ router.get('/allusers', (req, res, next) => {
         res.send(sqlRes)
     });
 });
-// router.post('/register/phone', async(req, res) => {
-//     const result = await register.sendMessage(req, res);
-//     res.json(result)
-// })
-/*router.post('/loginuser', (req, res, next) => {
-    const {phone, pwd} = req.body;
-    if (phone.trim() !== '' && pwd.trim() !== '') {
-        query(sql.user.select_phone_pwd, [phone, pwd]).then((result) => {
-            if (result.length > 0) {
-                //保存session
-                updateLoginInfo(phone);
-                let loginStatus = saveSeesion(req, phone);
-                console.log(loginStatus);
-                sendJson(res, true, '登录成功');
-            } else {
-                sendJson(res, false, '用户不存在或密码错误');
-            }
-        }).catch((err) => {
-            console.log(err)
-        })
-    } else {
-        sendJson(res, false, '用户名和密码不能为空');
-    }
-})*/
 
 router.post('/loginuser', loginuser)
 async function loginuser(req, res) {
@@ -88,6 +64,7 @@ router.get('/userinfo', (req, res) => {
 })
 router.all('/logoutuser', (req, res) => {
     delete req.session.phone;
+    delete req.session.user_id;
    sendJson(res, true, '退出成功');
 });
 
@@ -119,11 +96,25 @@ router.post('/addCollect', async(req, res, next) => {
         sendJson2(Object.assign({res},info))
     }
 })
+router.get('/allCollect', async(req, res, next) => {
+     const loginFlag = await checkLogin(req, res);
+    if(!loginFlag) {
+        sendJson2({res, message: '请登录'});
+        return;
+    }
+    const rows = await Collect.allCollect(req, res).catch(err => {
+        next(err)
+    })
+    if(rows.length) {
+        sendJson2(Object.assign({res, data: rows, success: true}))
+    }
+})
 router.get('/getRecommend', async(req, res, next) => {
-     await Recommend.getRecommend(req, res).then(res => {
-         console.log(res)
+     await Recommend.getRecommend(req, res).then(response => {
+         sendJson2({res, data: response, success: true})
      }).catch(err => {
-         next(err)
+        console.log(err)
+        next(err)
      });
     // sendJson2({res})
 })
