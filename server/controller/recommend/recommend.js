@@ -14,17 +14,20 @@ export default class Recommend {
         }).then(async response => {
             const lists = response.data;
             const userId = req.session.user_id;
+
             if (userId) {
                 let queryCollectFns = [];
-                lists.forEach(async(list, index) => {
+                // for (let i=0, list; list=lists[i++]; ) {
+                //     let jianshuId = list.object.data.id;
+                //     let rows = await query(sqlMap.userCollect.select_jianshu_id, [userId, jianshuId]);
+                //     list.isCollect = rows.length > 0;
+                // }
+                lists.forEach(async(list) => {
                     let jianshuId = list.object.data.id;
                     let rows = await query(sqlMap.userCollect.select_jianshu_id, [userId, jianshuId]);
-                    if (rows.length > 0) {
-                        list.isCollect = true;
-                    } else {
-                        list.isCollect = false;
-                    }
+                    list.isCollect = rows.length > 0;
                 })
+                console.log('return')
                 return lists
             } else {
                 return lists

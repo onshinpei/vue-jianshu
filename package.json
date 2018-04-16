@@ -16,7 +16,7 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "server": "nodemon server/bin/www"
+    "server": "nodemon server/bin/www  --inspect-brk=3889"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
