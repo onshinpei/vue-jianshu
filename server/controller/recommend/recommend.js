@@ -8,7 +8,7 @@ export default class Recommend {
         return request({
             url: 'https://www.jianshu.com/mobile/trending/now?page=1&count=15',
             method: 'GET',
-            headers: headers,
+            headers: headers
         })
         // return axios.get('https://www.jianshu.com/mobile/trending/now', {
         //     headers: {
