@@ -28,7 +28,7 @@
                     borderColor: this.color
                 }
             },
-            modClass () {
+            modClass() {
                 if (this.bgColor) {
                     return
                 }

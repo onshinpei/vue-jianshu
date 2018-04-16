@@ -16,7 +16,7 @@ export default class Collect {
         }).catch(err => {
             throw err
         })
-        if(resData) {
+        if (resData) {
             return {
                 success: true,
                 message: '收藏成功'
@@ -25,14 +25,16 @@ export default class Collect {
     }
 
     static async allCollect(req, res) {
-        const user_id = req.session.user_id;
-        let resData = [];
-        let rowsData = await query(sqlMap.userCollect.select_user_id, [user_id]);
-        console.log(rowsData[0].collect_obj)
-        rowsData.forEach((rowData) => {
-            resData.push(JSON.parse(rowData.collect_obj))
-        })
-        return resData
+        try {
+            const userId = req.session.user_id;
+            let resData = [];
+            let rowsData = await query(sqlMap.userCollect.select_user_id, [userId]);
+            rowsData.forEach((rowData) => {
+                resData.push(JSON.parse(rowData.collect_obj))
+            })
+            return resData
+        } catch (e) {
+            console.log(e)
+        }
     }
-
 }
