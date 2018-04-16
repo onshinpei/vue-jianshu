@@ -13,7 +13,7 @@ export default class Login {
             }
         }
         if (!pwd || !pwd.trim()) {
-            sendJson(res, false, '密码不能为空')
+            sendJson(res, falsef, '密码不能为空')
         }
         // 检查手机号是否存在
         const userId = await this.checkPhone(phone);
