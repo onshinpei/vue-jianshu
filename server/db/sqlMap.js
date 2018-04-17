@@ -20,7 +20,7 @@ const sqlMap = {
     userCollect: {
         insert: 'insert into user_collects set ?',
         select_jianshu_id: 'select * from user_collects where user_id = ? and jianshu_id = ?',
-        select_user_id: 'select * from user_collects where user_id = ?'
+        select_user_id: 'select * from user_collects where user_id = ? limit ?, ?'
     }
 };
 

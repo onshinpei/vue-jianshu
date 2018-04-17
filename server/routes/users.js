@@ -14,9 +14,30 @@ import {checkLogin} from "../common/util";
 const router = express.Router();
 // var register = require('../controller/register');
 /* GET users listing. */
+
+router.all('*', function (req, res, next) {
+    //登录拦截器，必须放在静态资源声明之后、路由导航之前
+    let url = req.originalUrl;
+    if (url === "/users/loginuser" || url === "/users/logoutuser") {
+        next();
+    } else {
+        if(req.session && req.session.phone) {
+            next();
+        } else {
+            res.json({
+                success: false,
+                message: '请登录'
+            })
+            res.end();
+        }
+
+    }
+})
+
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
+
 router.get('/allusers', (req, res, next) => {
     query('select * from user').then(sqlRes => {
         res.send(sqlRes)

@@ -26,12 +26,18 @@ export default class Collect {
 
     static async allCollect(req, res) {
         try {
+            let {pageSize = 10, pageNum = 1} = req.query;
             const userId = req.session.user_id;
+            let start = (pageNum -1) * pageSize;
+            let end = pageSize * pageNum ;
             let resData = [];
-            let rowsData = await query(sqlMap.userCollect.select_user_id, [userId]);
+            let rowsData = await query(sqlMap.userCollect.select_user_id, [userId, start, end]);
             rowsData.forEach((rowData) => {
                 resData.push(JSON.parse(rowData.collect_obj))
             })
+            const data = {
+
+            }
             return resData
         } catch (e) {
             console.log(e)

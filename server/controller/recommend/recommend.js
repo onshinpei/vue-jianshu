@@ -22,12 +22,11 @@ export default class Recommend {
                 //     let rows = await query(sqlMap.userCollect.select_jianshu_id, [userId, jianshuId]);
                 //     list.isCollect = rows.length > 0;
                 // }
-                lists.forEach(async(list) => {
+                await Promise.all(lists.map(async(list) => {
                     let jianshuId = list.object.data.id;
                     let rows = await query(sqlMap.userCollect.select_jianshu_id, [userId, jianshuId]);
                     list.isCollect = rows.length > 0;
-                })
-                console.log('return')
+                }));
                 return lists
             } else {
                 return lists
