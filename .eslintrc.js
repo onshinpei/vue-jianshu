@@ -30,6 +30,11 @@ module.exports = {
         'no-unused-vars': 0,
         'space-before-function-paren': 0,
         'generator-star-spacing': 'off',
+        //单双引号
+        'quotes': 0,
+        //末尾逗号
+        'comma-dangle': 0,
+        'no-multiple-empty-lines': 0,
         // allow debugger during development
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
     }
