@@ -6,6 +6,7 @@ import Register from '@/components/register/Register'
 import Personal from '@/components/personal/Personal'
 import Following from '@/components/personal/Following'
 import Collects from '@/components/personal/Collects'
+import Ticket from '@/components/ticket/ticket'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
             path: '/register',
             name: 'register',
             component: Register
+        },
+        {
+            path: '/ticket',
+            name: 'ticket',
+            component: Ticket
         },
         {
             path: '/personal',

@@ -11,6 +11,7 @@ require('./common/global')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var ticket = require('./routes/ticket')
 
 var app = express();
 
@@ -59,6 +60,7 @@ app.use(session({
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/ticket', ticket);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

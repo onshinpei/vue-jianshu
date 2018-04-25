@@ -17,7 +17,7 @@
                 console.log('获取成功');
             } else {
                 this.$store.commit('SET_LOGIN', {});
-                this.$router.push('/login');
+                //this.$router.push('/login');
             }
         }
     }
